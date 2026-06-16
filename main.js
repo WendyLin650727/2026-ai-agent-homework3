@@ -20,7 +20,7 @@ try {
    
     for (const [i, r] of results.entries()) {
       //console.log(`\n${i + 1}. ${r.name} (${r.introduction}, ${r.production_season})`);
-      //console.log(`   分數：${r.score.toFixed(3)}`);
+      console.log(`   分數：${r.score.toFixed(3)}`);
       console.log(` 水果名：${r.name}`);
       console.log(`   描述：${r.introduction}`);
       console.log(`   特色：${r.feature}`);
