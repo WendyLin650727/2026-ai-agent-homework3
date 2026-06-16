@@ -17,7 +17,8 @@ try {
     const spin = spinner("搜尋中...").start();
     const results = await searchFruits(query, 5);
     spin.stop();
-   
+    console.log("搜尋結果：", results);  
+    
     for (const [i, r] of results.entries()) {
       //console.log(`\n${i + 1}. ${r.name} (${r.introduction}, ${r.production_season})`);
       console.log(`   分數：${r.score.toFixed(3)}`);
