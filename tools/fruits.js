@@ -6,7 +6,7 @@ async function search({ query, limit = 5 }) {
   return await searchFruits(query, limit);
 }
 
-export const netflixTool = defineTool({
+export const fruitsTool = defineTool({
   name: "search_fruits",
   description:
     "在水果資料庫中以語意搜尋相關資訊，可用於尋找水果的特色與產季等",
