@@ -5,7 +5,7 @@ import { spinner } from "./utils/spinner.js";
 try {
   while (true) {
     const query = (
-      await input({ message: "請輸入要搜尋的水果(c、鳳梨、釋迦、蓮霧、芭樂，以上5種水果擇一)：" })
+      await input({ message: "請輸入要搜尋的水果(芒果、鳳梨、釋迦、蓮霧、芭樂，以上5種水果擇一)：" })
     ).trim();
     
     if (query === "") continue;
