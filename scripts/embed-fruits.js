@@ -3,34 +3,31 @@ import { parse } from "csv-parse/sync";
 import { client } from "../lib/openai.js";
 import {
   qdrant,
-  NETFLIX_COLLECTION,
+  FRUITS_COLLECTION,
   EMBEDDING_DIM,
   EMBEDDING_MODEL,
 } from "../lib/qdrant.js";
 
-const CSV_PATH = "data/netflix_titles.csv";
+const CSV_PATH = "data/fruits.csv";
 const BATCH_SIZE = 100;
 
 function rowToText(row) {
   return [
-    row.title,
-    row.type,
-    row.director,
-    row.cast,
-    row.country,
-    row.listed_in,
-    row.description,
+    row.name,
+    row.introduction,
+    row.feature,
+    row.production_season,
   ]
     .filter(Boolean)
     .join(" | ");
 }
 
 async function recreateCollection() {
-  const exists = await qdrant.collectionExists(NETFLIX_COLLECTION);
+  const exists = await qdrant.collectionExists(FRUITS_COLLECTION);
   if (exists.exists) {
-    await qdrant.deleteCollection(NETFLIX_COLLECTION);
+    await qdrant.deleteCollection(FRUITS_COLLECTION);
   }
-  await qdrant.createCollection(NETFLIX_COLLECTION, {
+  await qdrant.createCollection(FRUITS_COLLECTION, {
     vectors: { size: EMBEDDING_DIM, distance: "Cosine" },
   });
 }
@@ -49,7 +46,7 @@ async function main() {
   console.log(`讀到 ${rows.length} 筆資料`);
 
   await recreateCollection();
-  console.log(`已建立 collection: ${NETFLIX_COLLECTION}`);
+  console.log(`已建立 collection: ${FRUITS_COLLECTION}`);
 
   let processed = 0;
   for (let i = 0; i < rows.length; i += BATCH_SIZE) {
@@ -61,21 +58,14 @@ async function main() {
       id: i + idx,
       vector: vectors[idx],
       payload: {
-        show_id: row.show_id,
-        title: row.title,
-        type: row.type,
-        director: row.director,
-        cast: row.cast,
-        country: row.country,
-        release_year: row.release_year,
-        rating: row.rating,
-        duration: row.duration,
-        listed_in: row.listed_in,
-        description: row.description,
+        name: row.name,
+        introduction: row.introduction,
+        feature: row.feature,
+        production_season: row.production_season,
       },
     }));
 
-    await qdrant.upsert(NETFLIX_COLLECTION, { wait: true, points });
+    await qdrant.upsert(FRUITS_COLLECTION, { wait: true, points });
     processed += batch.length;
     console.log(`進度：${processed} / ${rows.length}`);
   }
