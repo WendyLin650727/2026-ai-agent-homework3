@@ -1,0 +1,1 @@
+export { fruitsTool } from "./fruits.js";
