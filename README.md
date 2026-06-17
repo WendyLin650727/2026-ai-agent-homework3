@@ -6,5 +6,5 @@
 
 3. 水果查詢結果:
   1).芒果:
-
+    ![Alt text](./images/query_result.png)
 
