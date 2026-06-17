@@ -13,6 +13,7 @@ const BATCH_SIZE = 100;
 
 function rowToText(row) {
   return [
+    row.f_id,
     row.name,
     row.introduction,
     row.feature,
@@ -58,6 +59,7 @@ async function main() {
       id: i + idx,
       vector: vectors[idx],
       payload: {
+        f_id: row.f_id,
         name: row.name,
         introduction: row.introduction,
         feature: row.feature,
